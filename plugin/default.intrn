@@ -1,0 +1,14 @@
+%YAML 1.2
+---
+Slack:
+    token: 0000-0000 # Get one at https://api.slack.com/web#authentication
+    channel: "#general"
+    username: VIMTern
+    icon_emoji: ":robot_face:"
+
+default_msgs:
+    - _sigh_
+    - Get back to work!
+    - Typical, Intern.
+    - Does it look finished?
+    - Deploy!

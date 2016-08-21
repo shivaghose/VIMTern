@@ -1,0 +1,15 @@
+*VIMTern* tell your intern to do things over Slack from the comfort of VIM.
+
+META
+
+Version: 0.0
+Author: shivaghose (https://github.com/shivaghose)
+License: MIT License
+Repository: https://github.com/shivaghose/VIMTern
+
+
+COMMANDS
+
+:VIMTernDo "Get back to work!"     Sends a message to your intern via Slack.
+
+The README has a lot more information.
