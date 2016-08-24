@@ -55,6 +55,7 @@ def vimtern_do(msg, intrn_file):
     sc.api_call("chat.postMessage",
                 channel=channel,
                 text=msg,
+                parse="full",
                 username=config["Slack"]["username"], icon_emoji=icon_emoji)
 
 
