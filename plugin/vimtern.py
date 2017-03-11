@@ -56,7 +56,8 @@ def vimtern_do(msg, intrn_file):
         "text": msg,
         "channel": channel,
         "username": username,
-        "icon_emoji": icon_emoji
+        "icon_emoji": icon_emoji,
+        "parse": "full"
     })
 
     # Create and send POST request to Slack webhook
