@@ -13,7 +13,7 @@ VERBOSE = False
 try:
     import requests
 except ImportError:
-    print "Unable to import requests. Run `pip install requests` and try again."
+    print "Unable to import requests. Run `pip install requests`."
     exit(1)
 
 
@@ -63,13 +63,15 @@ def vimtern_do(msg, intrn_file):
     # Create and send POST request to Slack webhook
     slack_uri = config['Slack']['uri']
     try:
-        r = requests.post(slack_uri, data=payload, headers={'Content-type': 'application/json'})
+        r = requests.post(slack_uri, data=payload, headers={
+                          'Content-type': 'application/json'})
         r.raise_for_status()
     except requests.exceptions.ConnectionError:
         print "Could not establish connection to Slack."
         exit(1)
-    except requests.exceptions.HTTPError:
+    except requests.exceptions.HTTPError as err:
         print "Slack API request was not successful."
+        print err.message
         exit(1)
     except requests.exceptions.Timeout:
         print "Slack API request timed out."
