@@ -1,8 +1,9 @@
 %YAML 1.2
 ---
 Slack:
-    token: 0000-0000 # Get one at https://api.slack.com/web#authentication
-    channel: "#general"
+    # Replace the line below with your webhook integration URI
+    uri: "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
+    channel: "#general" # Can be either #channel or @username
     username: VIMTern
     icon_emoji: ":robot_face:"
 

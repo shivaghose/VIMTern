@@ -5,14 +5,15 @@ VIMTern.py dispatch work to your intern via Slack from the command line.
 from random import randint
 from sys import exit, argv
 import argparse
+import json
 import yaml  # To load the intrn file
 
 VERBOSE = False
 
 try:
-    from slackclient import SlackClient
+    import requests
 except ImportError:
-    print "Unable to import the SlackClient."
+    print "Unable to import requests. Run `pip install requests`."
     exit(1)
 
 
@@ -45,18 +46,36 @@ def vimtern_do(msg, intrn_file):
         print "vimtern_do: msg is not a string."
         print "msg: ", msg
         exit(1)
-    msg = msg.replace('"', '').strip()
 
-    sc = SlackClient(config["Slack"]["token"])
-    if VERBOSE:
-        print ">" * 5, msg
+    # Build JSON message payload
+    msg = msg.replace('"', '').strip()
     channel = config["Slack"]["channel"]
+    username = config["Slack"]["username"]
     icon_emoji = config["Slack"]["icon_emoji"]
-    sc.api_call("chat.postMessage",
-                channel=channel,
-                text=msg,
-                parse="full",
-                username=config["Slack"]["username"], icon_emoji=icon_emoji)
+    payload = json.dumps({
+        "text": msg,
+        "channel": channel,
+        "username": username,
+        "icon_emoji": icon_emoji,
+        "parse": "full"
+    })
+
+    # Create and send POST request to Slack webhook
+    slack_uri = config['Slack']['uri']
+    try:
+        r = requests.post(slack_uri, data=payload, headers={
+                          'Content-type': 'application/json'})
+        r.raise_for_status()
+    except requests.exceptions.ConnectionError:
+        print "Could not establish connection to Slack."
+        exit(1)
+    except requests.exceptions.HTTPError as err:
+        print "Slack API request was not successful."
+        print err.message
+        exit(1)
+    except requests.exceptions.Timeout:
+        print "Slack API request timed out."
+        exit(1)
 
 
 if __name__ == "__main__":
